@@ -65,7 +65,7 @@ class BlockchainProcessor(Processor):
                 self.bitcoind('getinfo')
                 break
             except:
-                print_log('cannot contact litecoind...')
+                print_log('cannot contact vertcoind...')
                 time.sleep(5)
                 continue
 
@@ -113,7 +113,7 @@ class BlockchainProcessor(Processor):
         try:
             respdata = urllib.urlopen(self.bitcoind_url, postdata).read()
         except:
-            print_log("error calling litecoind")
+            print_log("error calling vertcoind")
             traceback.print_exc(file=sys.stdout)
             self.shared.stop()
 
@@ -618,7 +618,7 @@ class BlockchainProcessor(Processor):
         try:
             respdata = urllib.urlopen(self.bitcoind_url, postdata).read()
         except:
-            print_log("litecoind error (getfullblock)")
+            print_log("vertcoind error (getfullblock)")
             traceback.print_exc(file=sys.stdout)
             self.shared.stop()
 
@@ -627,7 +627,7 @@ class BlockchainProcessor(Processor):
         for ir in r:
             if ir['error'] is not None:
                 self.shared.stop()
-                print_log("Error: make sure you run litecoind with txindex=1; use -reindex if needed.")
+                print_log("Error: make sure you run vertcoind with txindex=1; use -reindex if needed.")
                 raise BaseException(ir['error'])
             rawtxdata.append(ir['result'])
         block['tx'] = rawtxdata

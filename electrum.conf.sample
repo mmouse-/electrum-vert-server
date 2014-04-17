@@ -29,6 +29,6 @@ pruning_limit = 100
 [bitcoind]
 host = localhost
 port = 9332
-# user and password from litecoin.conf
+# user and password from vertcoin.conf
 user = user
 password = password

@@ -12,7 +12,7 @@ requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/pooler/electrum-ltc-server/blob/master/HOWTO.md
+    https://github.com/pooler/electrum-vert-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -20,8 +20,8 @@ Conventions
 In this document, lines starting with a hash sign (#) or a dollar sign ($)
 contain commands. Commands starting with a hash should be run as root,
 commands starting with a dollar should be run as a normal user (in this
-document, we assume that user is called 'litecoin'). We also assume the
-litecoin user has sudo rights, so we use '$ sudo command' when we need to.
+document, we assume that user is called 'vertcoin'). We also assume the
+vertcoin user has sudo rights, so we use '$ sudo command' when we need to.
 
 Strings that are surrounded by "lower than" and "greater than" ( < and > )
 should be replaced by the user with something appropriate. For example,
@@ -54,9 +54,9 @@ Python libraries.
 
 **Hardware.** The lightest setup is a pruning server with diskspace 
 requirements of about 4 GB for the electrum database. However note that 
-you also need to run litecoind and keep a copy of the full blockchain, 
+you also need to run vertcoind and keep a copy of the full blockchain, 
 which is roughly 4 GB in April 2014. If you have less than 2 GB of RAM 
-make sure you limit litecoind to 8 concurrent connections. If you have more 
+make sure you limit vertcoind to 8 concurrent connections. If you have more 
 ressources to  spare you can run the server with a higher limit of historic 
 transactions per address. CPU speed is important, mostly for the initial block 
 chain import, but also if you plan to run a public Electrum server, which 
@@ -67,21 +67,21 @@ has enough RAM to hold and procss the leveldb database in tmpfs (e.g. /dev/shm).
 Instructions
 ------------
 
-### Step 1. Create a user for running litecoind and Electrum server
+### Step 1. Create a user for running vertcoind and Electrum server
 
 This step is optional, but for better security and resource separation I
-suggest you create a separate user just for running `litecoind` and Electrum.
+suggest you create a separate user just for running `vertcoind` and Electrum.
 We will also use the `~/bin` directory to keep locally installed files
 (others might want to use `/usr/local/bin` instead). We will download source
 code files to the `~/src` directory.
 
-    $ sudo adduser litecoin --disabled-password
+    $ sudo adduser vertcoin --disabled-password
     $ sudo apt-get install git
-    # su - litecoin
+    # su - vertcoin
     $ mkdir ~/bin ~/src
     $ echo $PATH
 
-If you don't see `/home/litecoin/bin` in the output, you should add this line
+If you don't see `/home/vertcoin/bin` in the output, you should add this line
 to your `.bashrc`, `.profile` or `.bash_profile`, then logout and relogin:
 
     PATH="$HOME/bin:$PATH"
@@ -91,34 +91,34 @@ to your `.bashrc`, `.profile` or `.bash_profile`, then logout and relogin:
 We will download the latest git snapshot for Electrum server:
 
     $ mkdir -p ~/electrum-server
-    $ git clone https://github.com/pooler/electrum-ltc-server.git electrum-server
+    $ git clone https://github.com/pooler/electrum-vert-server.git electrum-server
 
-### Step 3. Download litecoind
+### Step 3. Download vertcoind
 
-Older versions of Electrum used to require a patched version of litecoind. 
-This is not the case anymore since litecoind supports the 'txindex' option.
-We currently recommend litecoind 0.8.6.2 stable.
+Older versions of Electrum used to require a patched version of vertcoind. 
+This is not the case anymore since vertcoind supports the 'txindex' option.
+We currently recommend vertcoind 0.8.6.2 stable.
 
-If you prefer to compile litecoind, here are some pointers for Ubuntu:
+If you prefer to compile vertcoind, here are some pointers for Ubuntu:
 
     # apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config libminiupnpc-dev git
-    # su - litecoin
-    $ cd ~/src && git clone https://github.com/litecoin-project/litecoin.git
-    $ cd litecoin/src
+    # su - vertcoin
+    $ cd ~/src && git clone https://github.com/vertcoin-project/vertcoin.git
+    $ cd vertcoin/src
     $ make -f makefile.unix
-    $ strip litecoind
-    $ cp -a ~/src/litecoin/src/litecoind ~/bin/litecoind
+    $ strip vertcoind
+    $ cp -a ~/src/vertcoin/src/vertcoind ~/bin/vertcoind
 
-### Step 4. Configure and start litecoind
+### Step 4. Configure and start vertcoind
 
-In order to allow Electrum to "talk" to `litecoind`, we need to set up a RPC
-username and password for `litecoind`. We will then start `litecoind` and
+In order to allow Electrum to "talk" to `vertcoind`, we need to set up a RPC
+username and password for `vertcoind`. We will then start `vertcoind` and
 wait for it to complete downloading the blockchain.
 
-    $ mkdir ~/.litecoin
-    $ $EDITOR ~/.litecoin/litecoin.conf
+    $ mkdir ~/.vertcoin
+    $ $EDITOR ~/.vertcoin/vertcoin.conf
 
-Write this in `litecoin.conf`:
+Write this in `vertcoin.conf`:
 
     rpcuser=<rpc-username>
     rpcpassword=<rpc-password>
@@ -127,24 +127,24 @@ Write this in `litecoin.conf`:
     disablewallet=1
 
 
-If you have an existing installation of litecoind and have not previously
+If you have an existing installation of vertcoind and have not previously
 set txindex=1 you need to reindex the blockchain by running
 
-    $ litecoind -reindex
+    $ vertcoind -reindex
 
-If you have a fresh copy of litecoind start `litecoind`:
+If you have a fresh copy of vertcoind start `vertcoind`:
 
-    $ litecoind
+    $ vertcoind
 
-Allow some time to pass, so `litecoind` connects to the network and starts
+Allow some time to pass, so `vertcoind` connects to the network and starts
 downloading blocks. You can check its progress by running:
 
-    $ litecoind getinfo
+    $ vertcoind getinfo
 
-Before starting electrum server your litecoind should have processed all 
+Before starting electrum server your vertcoind should have processed all 
 blockes and caught up to the current height of the network.
-You should also set up your system to automatically start litecoind at boot
-time, running as the 'litecoin' user. Check your system documentation to
+You should also set up your system to automatically start vertcoind at boot
+time, running as the 'vertcoin' user. Check your system documentation to
 find out the best way to do this.
 
 ### Step 5. Install Electrum dependencies
@@ -194,7 +194,7 @@ It's recommended to fetch a pre-processed leveldb from the net
 
 You can fetch recent copies of electrum leveldb databases and further instructions 
 from the Electrum full archival server foundry at:
-http://foundry.electrum-ltc.org/leveldb-dump/
+http://foundry.electrum-vert.org/leveldb-dump/
 
 Alternatively if you have the time and nerve you can import the blockchain yourself.
 
@@ -259,12 +259,12 @@ in case you need to restore it.
 
 ### Step 10. Configure Electrum server
 
-Electrum reads a config file (/etc/electrum-ltc.conf) when starting up. This
-file includes the database setup, litecoind RPC setup, and a few other
+Electrum reads a config file (/etc/electrum-vert.conf) when starting up. This
+file includes the database setup, vertcoind RPC setup, and a few other
 options.
 
-    $ sudo cp ~/electrum-server/electrum.conf.sample /etc/electrum-ltc.conf
-    $ sudo $EDITOR /etc/electrum-ltc.conf
+    $ sudo cp ~/electrum-server/electrum.conf.sample /etc/electrum-vert.conf
+    $ sudo $EDITOR /etc/electrum-vert.conf
 
 Go through the sample config options and set them to your liking.
 If you intend to run the server publicly have a look at README-IRC.md 
@@ -278,7 +278,7 @@ root user who usually passes this value to all unprivileged user sessions too.
 
     $ sudo sed -i '$a ulimit -n 16384' /root/.bashrc
 
-Also make sure the litecoin user can actually increase the ulimit by allowing it accordingly in
+Also make sure the vertcoin user can actually increase the ulimit by allowing it accordingly in
 /etc/security/limits.conf
 
 While most bugs are fixed in this regard electrum server may leak some memory and it's good practice to
@@ -287,9 +287,9 @@ it for crashes and then restart the server. Monthly restarts should be fine for 
 
 Two more things for you to consider:
 
-1. To increase security you may want to close litecoind for incoming connections and connect outbound only
+1. To increase security you may want to close vertcoind for incoming connections and connect outbound only
 
-2. Consider restarting litecoind (together with electrum-server) on a weekly basis to clear out unconfirmed
+2. Consider restarting vertcoind (together with electrum-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network
 
 ### Step 12. (Finally!) Run Electrum server
@@ -320,12 +320,12 @@ or hostname and the port. Press Ok, the client will disconnect from the
 current server and connect to your new Electrum server. You should see your
 addresses and transactions history. You can see the number of blocks and
 response time in the Server selection window. You should send/receive some
-litecoins to confirm that everything is working properly.
+vertcoins to confirm that everything is working properly.
 
 ### Step 14. Join us on IRC, subscribe to the server thread
 
 Say hi to the dev crew, other server operators and fans on 
-irc.freenode.net #electrum-ltc and we'll try to congratulate you
+irc.freenode.net #electrum-vert and we'll try to congratulate you
 on supporting the community by running an Electrum node
 
 If you're operating a public Electrum server please subscribe
