@@ -10,7 +10,7 @@ short outline:
 __________________________________________________________
 1. Run vertcoind.
 
-Install version 0.8.5 or higher.
+Install version 0.8.6.2 or higher.
 There is no need to patch vertcoind anymore.
 You need to run it with the config option txindex=1 .
 If you have not previously done so, you may need to reindex the vertcoind blockchain

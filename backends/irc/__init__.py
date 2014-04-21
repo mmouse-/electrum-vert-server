@@ -40,9 +40,7 @@ class IrcThread(threading.Thread):
             self.host = self.report_host
         if not self.nick:
             self.nick = Hash(self.host)[:5].encode("hex")
-        self.prepend = 'E_'
-        if config.get('server', 'coin') == 'vertcoin':
-            self.prepend = 'EL_'
+        self.prepend = 'EV_'
         self.pruning = config.get('server', 'backend') == 'leveldb'
         if self.pruning:
             self.pruning_limit = config.get('leveldb', 'pruning_limit')

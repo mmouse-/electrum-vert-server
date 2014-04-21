@@ -74,7 +74,7 @@ def create_config():
         attempt_read_config(config, filename)
 
     try:
-        with open('/etc/electrum-vert.banner', 'r') as f:
+        with open('/etc/electrum-ltc.banner', 'r') as f:
             config.set('server', 'banner', f.read())
     except IOError:
         pass

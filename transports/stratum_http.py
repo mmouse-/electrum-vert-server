@@ -252,7 +252,7 @@ class SSLRequestHandler(StratumJSONRPCRequestHandler):
         self.connection.shutdown()
 
 
-class SSVTCPServer(SocketServer.TCPServer):
+class SSLTCPServer(SocketServer.TCPServer):
     def __init__(self, server_address, certfile, keyfile, RequestHandlerClass, bind_and_activate=True):
         SocketServer.BaseServer.__init__(self, server_address, RequestHandlerClass)
         ctx = SSL.Context(SSL.SSLv23_METHOD)
@@ -299,7 +299,7 @@ class StratumHTTPServer(SocketServer.TCPServer, StratumJSONRPCDispatcher):
             fcntl.fcntl(self.fileno(), fcntl.F_SETFD, flags)
 
 
-class StratumHTTPSSLServer(SSVTCPServer, StratumJSONRPCDispatcher):
+class StratumHTTPSSLServer(SSLTCPServer, StratumJSONRPCDispatcher):
 
     allow_reuse_address = True
 
@@ -324,7 +324,7 @@ class StratumHTTPSSLServer(SSVTCPServer, StratumJSONRPCDispatcher):
                 except OSError:
                     logging.warning("Could not unlink socket %s", addr)
 
-        SSVTCPServer.__init__(self, addr, certfile, keyfile, requestHandler, bind_and_activate)
+        SSLTCPServer.__init__(self, addr, certfile, keyfile, requestHandler, bind_and_activate)
 
         if fcntl is not None and hasattr(fcntl, 'FD_CLOEXEC'):
             flags = fcntl.fcntl(self.fileno(), fcntl.F_GETFD)

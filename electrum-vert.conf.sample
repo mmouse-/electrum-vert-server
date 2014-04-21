@@ -1,5 +1,5 @@
 [server]
-host = localhost
+host = server.fullyqualified.domain.name
 #report_host = 
 stratum_tcp_port = 50001
 stratum_http_port = 8081
@@ -9,10 +9,10 @@ stratum_http_ssl_port = 8082
 #report_stratum_http_port = 80
 #report_stratum_tcp_ssl_port = 50002
 #report_stratum_http_ssl_port = 443
-password = secret
+password = secret_password_PLEASE_CHANGE_THIS_TO_SOMETHING_SECURE
 banner = Welcome to Electrum!
-#irc = no
-#irc_nick = <yournickname>
+irc = yes
+irc_nick = <yourserversnickname>
 ssl_certfile = /path/to/electrum-server.crt
 ssl_keyfile = /path/to/electrum-server.key
 
@@ -22,13 +22,13 @@ backend = leveldb
 [leveldb]
 #path = /path/to/your/database
 #fulltree is the new UTXO tree, required for Electrum 2.0 clients
-path_fulltree = /path/to/your/database
+path_fulltree = ./electrum_db
 # for each address, history will be pruned if it is longer than this limit
 pruning_limit = 100
 
 [bitcoind]
 host = localhost
-port = 9332
+port = 22555
 # user and password from vertcoin.conf
 user = user
 password = password

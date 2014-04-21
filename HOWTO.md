@@ -12,7 +12,7 @@ requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/pooler/electrum-vert-server/blob/master/HOWTO.md
+    https://github.com/paybee/electrum-vert-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -53,9 +53,9 @@ build chain. You will need root access in order to install other software or
 Python libraries. 
 
 **Hardware.** The lightest setup is a pruning server with diskspace 
-requirements of about 4 GB for the electrum database. However note that 
+requirements of about 5 GB for the electrum database. However note that 
 you also need to run vertcoind and keep a copy of the full blockchain, 
-which is roughly 4 GB in April 2014. If you have less than 2 GB of RAM 
+which is roughly 5 GB in April 2014. If you have less than 2 GB of RAM 
 make sure you limit vertcoind to 8 concurrent connections. If you have more 
 ressources to  spare you can run the server with a higher limit of historic 
 transactions per address. CPU speed is important, mostly for the initial block 
@@ -91,7 +91,7 @@ to your `.bashrc`, `.profile` or `.bash_profile`, then logout and relogin:
 We will download the latest git snapshot for Electrum server:
 
     $ mkdir -p ~/electrum-server
-    $ git clone https://github.com/pooler/electrum-vert-server.git electrum-server
+    $ git clone https://github.com/paybee/electrum-vert-server.git electrum-server
 
 ### Step 3. Download vertcoind
 
@@ -103,7 +103,7 @@ If you prefer to compile vertcoind, here are some pointers for Ubuntu:
 
     # apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config libminiupnpc-dev git
     # su - vertcoin
-    $ cd ~/src && git clone https://github.com/vertcoin-project/vertcoin.git
+    $ cd ~/src && git clone https://github.com/vertcoin/vertcoin.git
     $ cd vertcoin/src
     $ make -f makefile.unix
     $ strip vertcoind
@@ -194,7 +194,7 @@ It's recommended to fetch a pre-processed leveldb from the net
 
 You can fetch recent copies of electrum leveldb databases and further instructions 
 from the Electrum full archival server foundry at:
-http://foundry.electrum-vert.org/leveldb-dump/
+http://electrum-vert.org/leveldb-dump/
 
 Alternatively if you have the time and nerve you can import the blockchain yourself.
 
@@ -325,7 +325,7 @@ vertcoins to confirm that everything is working properly.
 ### Step 14. Join us on IRC, subscribe to the server thread
 
 Say hi to the dev crew, other server operators and fans on 
-irc.freenode.net #electrum-vert and we'll try to congratulate you
+irc.freenode.net #electrum and we'll try to congratulate you
 on supporting the community by running an Electrum node
 
 If you're operating a public Electrum server please subscribe
