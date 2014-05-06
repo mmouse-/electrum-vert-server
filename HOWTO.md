@@ -12,7 +12,7 @@ requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/paybee/electrum-vert-server/blob/master/HOWTO.md
+    https://github.com/vertpay/electrum-vert-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -91,7 +91,7 @@ to your `.bashrc`, `.profile` or `.bash_profile`, then logout and relogin:
 We will download the latest git snapshot for Electrum server:
 
     $ mkdir -p ~/electrum-server
-    $ git clone https://github.com/paybee/electrum-vert-server.git electrum-server
+    $ git clone https://github.com/vertpay/electrum-vert-server.git electrum-server
 
 ### Step 3. Download vertcoind
 
