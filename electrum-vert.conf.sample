@@ -22,13 +22,13 @@ backend = leveldb
 [leveldb]
 #path = /path/to/your/database
 #fulltree is the new UTXO tree, required for Electrum 2.0 clients
-path_fulltree = ./electrum_db
+path_fulltree = /var/local/electrum_db
 # for each address, history will be pruned if it is longer than this limit
 pruning_limit = 100
 
 [bitcoind]
 host = localhost
-port = 22555
+port = 5888
 # user and password from vertcoin.conf
 user = user
 password = password
