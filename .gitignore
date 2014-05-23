@@ -3,3 +3,6 @@
 *.o
 .gitignore
 electrum.conf
+*~
+electrum-vert.conf
+electrum-vert.log
